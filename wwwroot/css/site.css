@@ -21,6 +21,6 @@ li{
     list-style: none;
 }
 
-img{
-    max-width: 200px;
+img.table{
+    max-width: 100px;
 }

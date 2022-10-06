@@ -6,41 +6,51 @@
     bool isEmpty = !Model.Any();
 }
 
-<h1 class="my-4"cl>Le pizze:</h1>
+<h2 class="my-4"cl>Le nostre pizze:</h2>
 
 
 <div class="d-flex">
 
-    @{
-        if (!isEmpty){
+@{
+if (!isEmpty){
 
-            @for (var i = 0; i < Model.Count; i++)
-            {
-                <div class="col-4 p-2 mb-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Immagine</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Ingredienti</th>
+                <th scope="col">Prezzo</th>
+                <th></th>
+            </tr>
+        </thead>
 
-                    <div class="px-1 py-3 debug">
+        <tbody>
+            @for (var i = 0; i < Model.Count; i++){
 
-                        <h3>@Model[i].Name</h3>
-                        <img src="@Model[i].Image" class="mb-2" />
-                        <h6>Prezzo: &euro; @Model[i].Price</h6>
-                        <p>@Model[i].Description</p>
+            <tr>
+                <td> <img class="table" src="@Model[i].Image"> </td>
+                <td>@Model[i].Name</td>
+                <td>@Model[i].Description</td>
+                <td>@Model[i].Price</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="@Url.Action("Detail", "Pizza", new {Id = Model[i].PizzaId})">Dettaglio</a>
+                    <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "Pizza", new {id = Model[i].PizzaId})">Modifica</a>
 
-                        <a class="btn btn-warning btn-sm" href="@Url.Action("Detail", "Pizza", new {Id = Model[i].PizzaId})">Dettaglio</a>
-                        <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "Pizza", new {id = Model[i].PizzaId})">Modifica</a>
-
-                        <form class="d-inline" asp-controller="Pizza" asp-action="Delete" method="post" asp-route-id="@Model[i].PizzaId">
-                            <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
-                       </form>
-
-                    </div>
-
-                </div>
+                    <form class="d-inline" asp-controller="Pizza" asp-action="Delete" method="post" asp-route-id="@Model[i].PizzaId">
+                        <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+                    </form>
+                </td>
+            </tr>
             }
-    }else{
-            <h3>Non ci sono pizze da mostrare</h3>
+
+        </tbody>
+    </table>
+
+    }
+    else
+    {
+        <h3>Non ci sono pizze da mostrare</h3>
     }
 }
 </div>
-   
-    
-      

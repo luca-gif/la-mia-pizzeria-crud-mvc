@@ -1,7 +1,6 @@
 ﻿using la_mia_pizzeria_static.Context;
 using la_mia_pizzeria_static.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace la_mia_pizzeria_static.Controllers
@@ -62,8 +61,8 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Edit(int id)
         {
             Restaurant db = new Restaurant();
-            Pizza pizzaToEdit = db.ListaPizze.Where(p => p.PizzaId == id).First();
-                
+            Pizza pizzaToEdit = db.ListaPizze.Where(p => p.PizzaId == id).FirstOrDefault();
+
             return View(pizzaToEdit);
         }
 
@@ -72,7 +71,7 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Edit(int id, Pizza data)
         {
             Restaurant db = new Restaurant();
-            Pizza editedPizza = db.ListaPizze.Where(p => p.PizzaId == id).First();
+            Pizza editedPizza = db.ListaPizze.Where(p => p.PizzaId == id).FirstOrDefault();
 
             if (editedPizza != null)
             {
@@ -82,25 +81,33 @@ namespace la_mia_pizzeria_static.Controllers
                 editedPizza.Price = data.Price;
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return View("Detail", data);
             }
             else
             {
                 return NotFound("La pizza che stai cercando non è presente");
             }
-
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             Restaurant db = new Restaurant();
-            Pizza pizzaToDelete = db.ListaPizze.Where(p => p.PizzaId == id).First();
-            db.ListaPizze.Remove(pizzaToDelete);
-            db.SaveChanges();
+            Pizza pizzaToDelete = db.ListaPizze.Where(p => p.PizzaId == id).FirstOrDefault();
 
-            return RedirectToAction("Index");
+            if (pizzaToDelete != null)
+            {
+                db.ListaPizze.Remove(pizzaToDelete);
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound("La pizza che stai cercando non è presente");
+            }
         }
 
 
@@ -108,7 +115,7 @@ namespace la_mia_pizzeria_static.Controllers
         {
             Restaurant db = new Restaurant();
 
-            Pizza PizzaDetail = db.ListaPizze.Where(p => p.PizzaId == id).First();
+            Pizza PizzaDetail = db.ListaPizze.Where(p => p.PizzaId == id).FirstOrDefault();
 
             if (PizzaDetail == null)
             {
