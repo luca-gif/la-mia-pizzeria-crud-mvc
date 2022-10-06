@@ -70,11 +70,24 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Edit(int id, Pizza data)
         {
             Restaurant db = new Restaurant();
+            Pizza editedPizza = db.ListaPizze.Where(p => p.PizzaId == id).First();
 
-            db.ListaPizze.Update(data);
-            db.SaveChanges();
+            if (editedPizza != null)
+            {
 
-            return RedirectToAction("Index");
+                editedPizza.Name = data.Name;
+                editedPizza.Description = data.Description;
+                editedPizza.Image = data.Image;
+                editedPizza.Price = data.Price;
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound("La pizza che stai cercando non è presente");
+            }
+
         }
 
 
