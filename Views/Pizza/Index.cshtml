@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "_Layout";
+
+    @model List<Pizza>;
+
+    bool isEmpty = !Model.Any();
+}
+
+<h1 class="my-4"cl>Le pizze:</h1>
+
+
+<div class="d-flex">
+
+    @{
+        if (!isEmpty){
+
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                <div class="col-4 p-2 mb-3">
+
+                    <div class="px-1 py-3 debug">
+                        <h3>@Model[i].Name</h3>
+                        <img src="@Model[i].Image" class="mb-2" />
+                        <h6>Prezzo: &euro; @Model[i].Price</h6>
+                        <p>@Model[i].Description</p>
+                        <a class="btn btn-warning" href="@Url.Action("Detail", "Pizza", new {Id = Model[i].PizzaId})">Dettaglio</a>
+                        <a class="btn btn-primary" href="@Url.Action("Edit", "Pizza", new {id = Model[i].PizzaId})">Modifica</a>
+                    </div>
+
+                </div>
+            }
+    }else{
+            <h3>Non ci sono pizze da mostrare</h3>
+    }
+}
+</div>
+   
+    
+      

@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "_Layout";
+    @model Pizza
+}
+
+
+<form asp-controller="Pizza" asp-action="Edit" asp-route-id="@Model.PizzaId" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label for="name">Nome</label>
+        <input type="text" asp-for="Name" class="form-control" id="name" placeholder="Inserisci nome">
+        <span class="alert-danger" asp-validation-for="Name"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="image">Immagine</label>
+        <input type="text" asp-for="Image" class="form-control" id="image" placeholder="Inserisci l'url dell'immagine">
+        <span class="alert-danger" asp-validation-for="Image"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="ingredients">Ingredienti</label>
+        <textarea class="form-control" asp-for="Description" id="ingredients" rows="3"></textarea>
+        <span class="alert-danger" asp-validation-for="Description"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="price">Prezzo</label>
+        <input type="text" class="form-control" asp-for="Price" id="price" placeholder="Inserisci il prezzo">
+        <span class="alert-danger" asp-validation-for="Price"></span>
+    </div>
+
+    <button type="submit" class="btn btn-secondary my-2">Salva</button>
+
+</form>
