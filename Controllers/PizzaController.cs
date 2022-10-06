@@ -35,6 +35,7 @@ namespace la_mia_pizzeria_static.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Pizza data)
         {
             if (!ModelState.IsValid)
@@ -67,6 +68,7 @@ namespace la_mia_pizzeria_static.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Pizza data)
         {
             Restaurant db = new Restaurant();
@@ -74,7 +76,6 @@ namespace la_mia_pizzeria_static.Controllers
 
             if (editedPizza != null)
             {
-
                 editedPizza.Name = data.Name;
                 editedPizza.Description = data.Description;
                 editedPizza.Image = data.Image;
@@ -88,6 +89,18 @@ namespace la_mia_pizzeria_static.Controllers
                 return NotFound("La pizza che stai cercando non è presente");
             }
 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            Restaurant db = new Restaurant();
+            Pizza pizzaToDelete = db.ListaPizze.Where(p => p.PizzaId == id).First();
+            db.ListaPizze.Remove(pizzaToDelete);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
 
