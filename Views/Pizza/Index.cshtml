@@ -6,7 +6,7 @@
     bool isEmpty = !Model.Any();
 }
 
-<h2 class="my-4"cl>Le nostre pizze:</h2>
+<h2 class="my-4">Le nostre pizze:</h2>
 
 
 <div class="d-flex">
@@ -32,7 +32,7 @@ if (!isEmpty){
                 <td> <img class="table" src="@Model[i].Image"> </td>
                 <td>@Model[i].Name</td>
                 <td>@Model[i].Description</td>
-                <td>@Model[i].Price</td>
+                <td>&euro; @Model[i].Price</td>
                 <td>
                     <a class="btn btn-warning btn-sm" href="@Url.Action("Detail", "Pizza", new {Id = Model[i].PizzaId})">Dettaglio</a>
                     <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "Pizza", new {id = Model[i].PizzaId})">Modifica</a>
@@ -42,7 +42,7 @@ if (!isEmpty){
                     </form>
                 </td>
             </tr>
-            }
+        }
 
         </tbody>
     </table>

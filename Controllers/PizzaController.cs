@@ -53,7 +53,6 @@ namespace la_mia_pizzeria_static.Controllers
                 db.ListaPizze.Add(newPizza);
                 db.SaveChanges();
             }
-
             return RedirectToAction("Index");
         }
 
@@ -71,7 +70,7 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Edit(int id, Pizza data)
         {
             Restaurant db = new Restaurant();
-            Pizza editedPizza = db.ListaPizze.Where(p => p.PizzaId == id).FirstOrDefault();
+            Pizza editedPizza = db.ListaPizze.Find(id);
 
             if (editedPizza != null)
             {
@@ -88,7 +87,6 @@ namespace la_mia_pizzeria_static.Controllers
                 return NotFound("La pizza che stai cercando non è presente");
             }
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -109,7 +107,6 @@ namespace la_mia_pizzeria_static.Controllers
                 return NotFound("La pizza che stai cercando non è presente");
             }
         }
-
 
         public IActionResult Detail(int id)
         {
