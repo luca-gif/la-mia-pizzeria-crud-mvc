@@ -33,11 +33,13 @@ if (!isEmpty){
                 <td>@Model[i].Name</td>
                 <td>@Model[i].Description</td>
                 <td>&euro; @Model[i].Price</td>
+                
                 <td>
                     <a class="btn btn-warning btn-sm" href="@Url.Action("Detail", "Pizza", new {Id = Model[i].PizzaId})">Dettaglio</a>
                     <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "Pizza", new {id = Model[i].PizzaId})">Modifica</a>
 
                     <form class="d-inline" asp-controller="Pizza" asp-action="Delete" method="post" asp-route-id="@Model[i].PizzaId">
+                         @Html.AntiForgeryToken()
                         <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
                     </form>
                 </td>

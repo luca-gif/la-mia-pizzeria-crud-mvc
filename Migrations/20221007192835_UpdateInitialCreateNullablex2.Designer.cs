@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using la_mia_pizzeria_static.Context;
 
@@ -11,9 +12,10 @@ using la_mia_pizzeria_static.Context;
 namespace la_mia_pizzeria_static.Migrations
 {
     [DbContext(typeof(Restaurant))]
-    partial class RestaurantModelSnapshot : ModelSnapshot
+    [Migration("20221007192835_UpdateInitialCreateNullablex2")]
+    partial class UpdateInitialCreateNullablex2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

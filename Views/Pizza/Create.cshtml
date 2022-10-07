@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "_Layout";
-    @model Pizza
+    @model CategoryPizza
 }
 
 
@@ -9,27 +9,36 @@
 
     <div class="form-group">
         <label for="name">Nome</label>
-        <input type="text" asp-for="Name" class="form-control" id="name" placeholder="Inserisci nome">
-        <span class="alert-danger" asp-validation-for="Name"></span>
+        <input type="text" asp-for="Pizza.Name" class="form-control" id="name" placeholder="Inserisci nome">
+        <span class="alert-danger" asp-validation-for="Pizza.Name"></span>
     </div>
 
     <div class="form-group">
         <label for="image">Immagine</label>
-        <input type="text" asp-for="Image" class="form-control" id="image" placeholder="Inserisci l'url dell'immagine">
-        <span class="alert-danger" asp-validation-for="Image"></span>
+        <input type="text" asp-for="Pizza.Image" class="form-control" id="image" placeholder="Inserisci l'url dell'immagine">
+        <span class="alert-danger" asp-validation-for="Pizza.Image"></span>
     </div>
 
     <div class="form-group">
         <label for="ingredients">Ingredienti</label>
-        <textarea class="form-control" asp-for="Description" id="ingredients" rows="3"></textarea>
-        <span class="alert-danger" asp-validation-for="Description"></span>
+        <textarea class="form-control" asp-for="Pizza.Description" id="ingredients" rows="3"></textarea>
+        <span class="alert-danger" asp-validation-for="Pizza.Description"></span>
     </div>
 
     <div class="form-group">
         <label for="price">Prezzo</label>
-        <input type="text" class="form-control" asp-for="Price" id="price" placeholder="Inserisci il prezzo">
-        <span class="alert-danger" asp-validation-for="Price"></span>
+        <input type="text" class="form-control" asp-for="Pizza.Price" id="price" placeholder="Inserisci il prezzo">
+        <span class="alert-danger" asp-validation-for="Pizza.Price"></span>
     </div>
+
+    <select class="form-select my-3" asp-for="Pizza.CategoryId">
+        
+        @foreach (var category in Model.Categories)
+        {
+            <option value="@category.CategoryId">@category.Name</option>
+        }
+        
+    </select>
 
      <button type="submit" class="btn btn-secondary my-2">Inserisci</button>
 

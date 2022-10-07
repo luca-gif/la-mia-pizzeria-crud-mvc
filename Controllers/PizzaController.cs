@@ -1,6 +1,7 @@
 ﻿using la_mia_pizzeria_static.Context;
 using la_mia_pizzeria_static.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace la_mia_pizzeria_static.Controllers
@@ -20,7 +21,7 @@ namespace la_mia_pizzeria_static.Controllers
             using (Restaurant db = new Restaurant())
             {
 
-                List<Pizza> pizzas = db.ListaPizze.OrderBy(pizza => pizza.Price).ToList<Pizza>();
+                List<Pizza> pizzas = db.ListaPizze.Include("Category").OrderBy(pizza => pizza.Price).ToList();
 
                 return View("Index", pizzas);
             }
@@ -29,26 +30,33 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            CategoryPizza categoryPizza = new CategoryPizza();
+
+            categoryPizza.Categories = new Restaurant().Categories.ToList();
+
+            return View(categoryPizza);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza data)
+        public IActionResult Create(CategoryPizza data)
         {
+
             if (!ModelState.IsValid)
             {
-                return View();
+                data.Categories = new Restaurant().Categories.ToList();
+                return View(data);
             }
+
 
             using (Restaurant db = new Restaurant())
             {
                 Pizza newPizza = new Pizza(); //istanzio una nuova pizza
-                newPizza.Name = data.Name;
-                newPizza.Image = data.Image;
-                newPizza.Description = data.Description;
-                newPizza.Price = data.Price;
+                newPizza.Name = data.Pizza.Name;
+                newPizza.Image = data.Pizza.Image;
+                newPizza.Description = data.Pizza.Description;
+                newPizza.Price = data.Pizza.Price;
 
                 db.ListaPizze.Add(newPizza);
                 db.SaveChanges();
