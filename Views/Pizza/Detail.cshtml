@@ -7,9 +7,11 @@
     <div class="card mx-2" style="width: 18rem;">
         <img class="card-img-top" style="height: 160px" src="@Model.Image" alt="@Model.Name">
         <div class="card-body">
-            <h5 class="card-title">Pizza: @Model.Name</h5>
-            <p class="card-text">Ingredienti: @Model.Description</p>
-            <p class="card-text">Prezzo: &euro; @Model.Price</p>
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text">@Model.Description</p>
+            <p class="card-text">@Model.Category.Name</p>
+            
+            <p class="card-text">&euro; @Model.Price</p>
             <a href="@Url.Action("Index")" class="btn btn-warning w-100">Indietro</a>
         </div>
     </div>

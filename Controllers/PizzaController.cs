@@ -52,13 +52,14 @@ namespace la_mia_pizzeria_static.Controllers
 
             using (Restaurant db = new Restaurant())
             {
-                Pizza newPizza = new Pizza(); //istanzio una nuova pizza
+                /*Pizza newPizza = new Pizza(); //istanzio una nuova pizza
                 newPizza.Name = data.Pizza.Name;
                 newPizza.Image = data.Pizza.Image;
                 newPizza.Description = data.Pizza.Description;
                 newPizza.Price = data.Pizza.Price;
+                newPizza.CategoryId = data.Pizza.CategoryId;*/
 
-                db.ListaPizze.Add(newPizza);
+                db.ListaPizze.Add(data.Pizza);
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
@@ -70,25 +71,36 @@ namespace la_mia_pizzeria_static.Controllers
             Restaurant db = new Restaurant();
             Pizza pizzaToEdit = db.ListaPizze.Where(p => p.PizzaId == id).FirstOrDefault();
 
-            return View(pizzaToEdit);
+            if (pizzaToEdit == null)
+            {
+                return NotFound();
+            }
+
+            CategoryPizza categoryPizza = new CategoryPizza();
+            categoryPizza.Pizza = pizzaToEdit;
+            categoryPizza.Categories = db.Categories.ToList();
+
+            return View(categoryPizza);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Pizza data)
+        public IActionResult Edit(int id, CategoryPizza data)
         {
             Restaurant db = new Restaurant();
             Pizza editedPizza = db.ListaPizze.Find(id);
+            data.Categories = db.Categories.ToList();
 
             if (editedPizza != null)
             {
-                editedPizza.Name = data.Name;
-                editedPizza.Description = data.Description;
-                editedPizza.Image = data.Image;
-                editedPizza.Price = data.Price;
+                editedPizza.Name = data.Pizza.Name;
+                editedPizza.Description = data.Pizza.Description;
+                editedPizza.Image = data.Pizza.Image;
+                editedPizza.Price = data.Pizza.Price;
+                editedPizza.CategoryId = data.Pizza.CategoryId;
 
                 db.SaveChanges();
-                return View("Detail", data);
+                return RedirectToAction("Index");
             }
             else
             {
@@ -120,15 +132,15 @@ namespace la_mia_pizzeria_static.Controllers
         {
             Restaurant db = new Restaurant();
 
-            Pizza PizzaDetail = db.ListaPizze.Where(p => p.PizzaId == id).FirstOrDefault();
+            Pizza pizzaDetail = db.ListaPizze.Where(p => p.PizzaId == id).Include("Category").FirstOrDefault();
 
-            if (PizzaDetail == null)
+            if (pizzaDetail == null)
             {
                 return NotFound("Ciò che stai cercando non è presente nel nostro database.");
             }
             else
             {
-                return View(PizzaDetail);
+                return View(pizzaDetail);
             }
         }
 
