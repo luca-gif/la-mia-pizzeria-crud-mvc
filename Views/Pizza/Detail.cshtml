@@ -9,7 +9,12 @@
         <div class="card-body">
             <h5 class="card-title">@Model.Name</h5>
             <p class="card-text">@Model.Description</p>
-            <p class="card-text">@Model.Category.Name</p>
+            <p class="card-text">
+                @foreach (var ingredient in @Model.Ingredients)
+                {
+                    <small>@ingredient.Name</small>
+                }</p>
+            <p class="card-text"><small>@Model.Category?.Name</small></p>
             
             <p class="card-text">&euro; @Model.Price</p>
             <a href="@Url.Action("Index")" class="btn btn-warning w-100">Indietro</a>

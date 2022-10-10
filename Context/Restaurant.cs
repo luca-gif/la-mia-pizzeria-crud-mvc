@@ -8,6 +8,7 @@ namespace la_mia_pizzeria_static.Context
     {
         public DbSet<Pizza> ListaPizze { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Ingredients> Ingredients { get; set; }
 
         public Restaurant() : base()
         {

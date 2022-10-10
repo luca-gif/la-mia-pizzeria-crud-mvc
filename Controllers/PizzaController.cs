@@ -33,6 +33,7 @@ namespace la_mia_pizzeria_static.Controllers
             CategoryPizza categoryPizza = new CategoryPizza();
 
             categoryPizza.Categories = new Restaurant().Categories.ToList();
+            categoryPizza.Ingredients = new Restaurant().Ingredients.ToList();
 
             return View(categoryPizza);
         }
@@ -46,6 +47,7 @@ namespace la_mia_pizzeria_static.Controllers
             if (!ModelState.IsValid)
             {
                 data.Categories = new Restaurant().Categories.ToList();
+                data.Ingredients = new Restaurant().Ingredients.ToList();
                 return View(data);
             }
 
@@ -58,6 +60,8 @@ namespace la_mia_pizzeria_static.Controllers
                 newPizza.Description = data.Pizza.Description;
                 newPizza.Price = data.Pizza.Price;
                 newPizza.CategoryId = data.Pizza.CategoryId;*/
+
+                data.Pizza.Ingredients = db.Ingredients.Where(ingredient => data.SelectedIngredients.Contains(ingredient.Id)).ToList();
 
                 db.ListaPizze.Add(data.Pizza);
                 db.SaveChanges();
@@ -132,7 +136,7 @@ namespace la_mia_pizzeria_static.Controllers
         {
             Restaurant db = new Restaurant();
 
-            Pizza pizzaDetail = db.ListaPizze.Where(p => p.PizzaId == id).Include("Category").FirstOrDefault();
+            Pizza pizzaDetail = db.ListaPizze.Where(p => p.PizzaId == id).Include("Category").Include("Ingredients").FirstOrDefault();
 
             if (pizzaDetail == null)
             {

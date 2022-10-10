@@ -20,7 +20,7 @@
     </div>
 
     <div class="form-group">
-        <label for="ingredients">Ingredienti</label>
+        <label for="ingredients">Descrizione</label>
         <textarea class="form-control" asp-for="Pizza.Description" id="ingredients" rows="3"></textarea>
         <span class="alert-danger" asp-validation-for="Pizza.Description"></span>
     </div>
@@ -39,6 +39,28 @@
         }
         
     </select>
+    <span class="alert-danger" asp-validation-for="Pizza.CategoryId"></span>
+
+    <div class="ingredients">
+
+        <select class="form-select my-3" multiple="multiple" asp-for="SelectedIngredients">
+
+            @foreach (Ingredients ingredient in Model.Ingredients)
+            {
+                <option value="@ingredient.Id">@ingredient.Name</option>
+            }
+
+        </select>
+  @*      @foreach (var ingredient in Model.Ingredients)
+        {
+            <div class="form-check">
+                <input class="form-check-input" asp-for="SelectedIngredients" type="checkbox" value="@ingredient.Id" id="@ingredient.Name">
+                <label class="form-check-label" for="@ingredient.Name">
+                    @ingredient.Name
+                </label>
+            </div>
+        }*@
+    </div>
 
      <button type="submit" class="btn btn-secondary my-2">Inserisci</button>
 
