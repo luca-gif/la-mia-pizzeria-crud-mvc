@@ -83,6 +83,7 @@ namespace la_mia_pizzeria_static.Controllers
             CategoryPizza categoryPizza = new CategoryPizza();
             categoryPizza.Pizza = pizzaToEdit;
             categoryPizza.Categories = db.Categories.ToList();
+            categoryPizza.Ingredients = db.Ingredients.ToList();
 
             return View(categoryPizza);
         }
@@ -102,6 +103,7 @@ namespace la_mia_pizzeria_static.Controllers
                 editedPizza.Image = data.Pizza.Image;
                 editedPizza.Price = data.Pizza.Price;
                 editedPizza.CategoryId = data.Pizza.CategoryId;
+                editedPizza.Ingredients = db.Ingredients.Where(ingredient => data.SelectedIngredients.Contains(ingredient.Id)).ToList();
 
                 db.SaveChanges();
                 return RedirectToAction("Index");

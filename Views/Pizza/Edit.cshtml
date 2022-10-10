@@ -40,6 +40,15 @@
 
     </select>
 
+    <select class="form-select my-3" multiple="multiple" asp-for="SelectedIngredients">
+
+        @foreach (Ingredients ingredient in Model.Ingredients)
+        {
+            <option value="@ingredient.Id">@ingredient.Name</option>
+        }
+
+    </select>
+
     <button type="submit" class="btn btn-secondary my-2">Salva</button>
 
 </form>
