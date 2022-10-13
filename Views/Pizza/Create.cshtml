@@ -43,7 +43,16 @@
 
     <div class="ingredients">
 
-        <select class="form-select my-3" multiple="multiple" asp-for="SelectedIngredients">
+ @*       <select class="form-select my-3" multiple="multiple" asp-for="SelectedIngredients">
+
+            @foreach (Ingredients ingredient in Model.Ingredients)
+            {
+                <option value="@ingredient.Id">@ingredient.Name</option>
+            }
+
+        </select>*@
+
+        <select class="form-select my-3" multiple="multiple" id="SelectedIngredients" name="SelectedIngredients">
 
             @foreach (Ingredients ingredient in Model.Ingredients)
             {
@@ -51,7 +60,8 @@
             }
 
         </select>
-  @*      @foreach (var ingredient in Model.Ingredients)
+
+ @*       @foreach (var ingredient in Model.Ingredients)
         {
             <div class="form-check">
                 <input class="form-check-input" asp-for="SelectedIngredients" type="checkbox" value="@ingredient.Id" id="@ingredient.Name">

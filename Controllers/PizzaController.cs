@@ -1,5 +1,6 @@
 ﻿using la_mia_pizzeria_static.Context;
 using la_mia_pizzeria_static.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -15,6 +16,7 @@ namespace la_mia_pizzeria_static.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
 
@@ -28,6 +30,7 @@ namespace la_mia_pizzeria_static.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Create()
         {
             CategoryPizza categoryPizza = new CategoryPizza();
@@ -54,12 +57,6 @@ namespace la_mia_pizzeria_static.Controllers
 
             using (Restaurant db = new Restaurant())
             {
-                /*Pizza newPizza = new Pizza(); //istanzio una nuova pizza
-                newPizza.Name = data.Pizza.Name;
-                newPizza.Image = data.Pizza.Image;
-                newPizza.Description = data.Pizza.Description;
-                newPizza.Price = data.Pizza.Price;
-                newPizza.CategoryId = data.Pizza.CategoryId;*/
 
                 data.Pizza.Ingredients = db.Ingredients.Where(ingredient => data.SelectedIngredients.Contains(ingredient.Id)).ToList();
 
@@ -77,7 +74,7 @@ namespace la_mia_pizzeria_static.Controllers
 
             if (pizzaToEdit == null)
             {
-                return NotFound();
+                return NotFound("Pizza non trovata");
             }
 
             CategoryPizza categoryPizza = new CategoryPizza();
@@ -88,6 +85,7 @@ namespace la_mia_pizzeria_static.Controllers
             return View(categoryPizza);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, CategoryPizza data)
@@ -95,8 +93,9 @@ namespace la_mia_pizzeria_static.Controllers
             Restaurant db = new Restaurant();
             Pizza editedPizza = db.ListaPizze.Find(id);
             data.Categories = db.Categories.ToList();
+            data.Ingredients = db.Ingredients.ToList();
 
-            if (editedPizza != null)
+            if (ModelState.IsValid)
             {
                 editedPizza.Name = data.Pizza.Name;
                 editedPizza.Description = data.Pizza.Description;
@@ -110,7 +109,10 @@ namespace la_mia_pizzeria_static.Controllers
             }
             else
             {
-                return NotFound("La pizza che stai cercando non è presente");
+                data.Categories = new Restaurant().Categories.ToList();
+                data.Ingredients = new Restaurant().Ingredients.ToList();
+
+                return View("Edit", data);
             }
         }
 
