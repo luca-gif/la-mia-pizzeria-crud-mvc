@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace la_mia_pizzeria_static.Controllers
 {
+    [Authorize]
     public class PizzaController : Controller
     {
         private readonly ILogger<PizzaController> _logger;
@@ -16,7 +17,6 @@ namespace la_mia_pizzeria_static.Controllers
             _logger = logger;
         }
 
-        [Authorize]
         public IActionResult Index()
         {
 
@@ -30,7 +30,6 @@ namespace la_mia_pizzeria_static.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IActionResult Create()
         {
             CategoryPizza categoryPizza = new CategoryPizza();
@@ -91,7 +90,7 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Edit(int id, CategoryPizza data)
         {
             Restaurant db = new Restaurant();
-            Pizza editedPizza = db.ListaPizze.Find(id);
+            Pizza editedPizza = db.ListaPizze.Include("Ingredients").Where(p => p.PizzaId == id).FirstOrDefault();
             data.Categories = db.Categories.ToList();
             data.Ingredients = db.Ingredients.ToList();
 
@@ -136,6 +135,7 @@ namespace la_mia_pizzeria_static.Controllers
             }
         }
 
+        
         public IActionResult Detail(int id)
         {
             Restaurant db = new Restaurant();
